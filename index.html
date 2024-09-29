@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Crop Yield Prediction</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Crop Yield Prediction</h2>
+        <form method="POST" action="/predict">
+            <div class="form-group">
+                <label for="area">Area</label>
+                <select class="form-control" name="area" id="area" required>
+                    <option value="">Select Area</option>
+                    {% for area in area_choices %}
+                    <option value="{{ area }}">{{ area }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item">Item</label>
+                <select class="form-control" name="item" id="item" required>
+                    <option value="">Select Item</option>
+                    {% for item in item_choices %}
+                    <option value="{{ item }}">{{ item }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="year">Year</label>
+                <input type="number" class="form-control" name="year" id="year" required>
+            </div>
+            <div class="form-group">
+                <label for="average_rainfall">Average Rainfall (mm)</label>
+                <input type="number" class="form-control" name="average_rainfall" id="average_rainfall" step="any" required>
+            </div>
+            <div class="form-group">
+                <label for="pesticides">Pesticides (tonnes)</label>
+                <input type="number" class="form-control" name="pesticides" id="pesticides" step="any" required>
+            </div>
+            <div class="form-group">
+                <label for="avg_temp">Average Temperature (°C)</label>
+                <input type="number" class="form-control" name="avg_temp" id="avg_temp" step="any" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Predict</button>
+        </form>
+
+        {% if rf_prediction is not none %}
+        <h4 class="mt-4">Predictions:</h4>
+        <ul>
+            <li>Random Forest Prediction: {{ rf_prediction }}</li>
+            <li>Linear Regression Prediction: {{ lr_prediction }}</li>
+            <li>Decision Tree Prediction: {{ dt_prediction }}</li>
+            <li>SVR Prediction: {{ svr_prediction }}</li>
+            <li>XGBoost Prediction: {{ xgb_prediction }}</li>
+        </ul>
+        {% endif %}
+    </div>
+</body>
+</html>
